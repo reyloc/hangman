@@ -1,0 +1,737 @@
+#!/usr/bin/ruby
+
+def draw_hangman
+  puts " Category: #@category\n"
+  puts "   __"
+  print "  |  |"
+  draw_letters(1)
+  print "  "
+  if @wrongs > 0
+    print "O"
+  else
+    print " "
+  end
+  print "  |"
+  draw_letters(2)
+  print " "
+  if @wrongs >= 3
+    print "\\"
+  else
+    print " "
+  end
+  if @wrongs >= 2
+    print "|"
+  else
+    print " "
+  end
+  if @wrongs >= 4
+    print "/"
+  else
+    print " "
+  end
+  print " |"
+  draw_letters(3)
+  print "  "
+  if @wrongs >= 2
+    print "|"
+  else
+    print " "
+  end
+  print "  |"
+  draw_letters(4)
+  print " "
+  if @wrongs >= 5
+    print "/ "
+  else
+    print "  "
+  end
+  if @wrongs >= 6
+    print "\\ |"
+  else
+    print "  |"
+  end
+  draw_letters(5)
+  puts "   __|__\n"
+end
+
+def draw_letters(row)
+  print " "
+  case row
+    when 1
+      ('A'..'F').to_a.each {|x| print @guesses.include?(x) ? "  " : "#{x} " }
+    when 2
+      ('G'..'L').to_a.each {|x| print @guesses.include?(x) ? "  " : "#{x} " }
+    when 3
+      ('M'..'R').to_a.each {|x| print @guesses.include?(x) ? "  " : "#{x} " }
+    when 4
+      ('S'..'X').to_a.each {|x| print @guesses.include?(x) ? "  " : "#{x} " }
+    when 5
+      ('Y'..'Z').to_a.each {|x| print @guesses.include?(x) ? "  " : "#{x} " }
+  end
+  puts
+end
+
+def draw_blanks
+  @word.chars.each do |c|
+    if @guesses.include?(c.upcase)
+      print "#{c.upcase} "
+    else
+      print "_ "
+    end
+  end
+  puts
+end
+
+def draw_picture
+  puts
+  draw_hangman
+  draw_blanks
+  puts
+end
+
+def word_list
+  @word_list = {"Animals" => ["Aardvark",
+                              "Aardwolf",
+                              "Albatross",
+                              "Alligator",
+                              "Alpaca",
+                              "Anaconda",
+                              "Angelfish",
+                              "Angelfish",
+                              "Anglerfish",
+                              "Anteater",
+                              "Antelope",
+                              "Antlion",
+                              "Aphid",
+                              "Armadillo",
+                              "Axolotl",
+                              "Baboon",
+                              "Badger",
+                              "Bandicoot",
+                              "Barnacle",
+                              "Barracuda",
+                              "Basilisk",
+                              "Bass",
+                              "Bear",
+                              "Beaver",
+                              "Bedbug",
+                              "Beetle",
+                              "Bird",
+                              "Bison",
+                              "Blackbird",
+                              "Boar",
+                              "Bobcat",
+                              "Bobolink",
+                              "Bonobo",
+                              "Booby",
+                              "Bovid",
+                              "Buffalo",
+                              "Bull",
+                              "Butterfly",
+                              "Buzzard",
+                              "Camel",
+                              "Canid",
+                              "Capybara",
+                              "Cardinal",
+                              "Caribou",
+                              "Carp",
+                              "Catshark",
+                              "Caterpillar",
+                              "Catfish",
+                              "Cattle",
+                              "Centipede",
+                              "Chameleon",
+                              "Cheetah",
+                              "Chickadee",
+                              "Chicken",
+                              "Chimpanzee",
+                              "Chinchilla",
+                              "Chipmunk",
+                              "Cicada",
+                              "Clam",
+                              "Clownfish",
+                              "Cobra",
+                              "Cockroach",
+                              "Condor",
+                              "Constrictor",
+                              "Coral",
+                              "Cougar",
+                              "Coyote",
+                              "Coypu",
+                              "Crab",
+                              "Crane",
+                              "Crawdad",
+                              "Crayfish",
+                              "Cricket",
+                              "Crocodile",
+                              "Crow",
+                              "Cuckoo",
+                              "Damselfly",
+                              "Deer",
+                              "Dhole",
+                              "Dingo",
+                              "Dodo",
+                              "Dolphin",
+                              "Donkey",
+                              "Dormouse",
+                              "Dove",
+                              "Dragonfly",
+                              "Dragon",
+                              "Duck",
+                              "Eagle",
+                              "Earthworm",
+                              "Earwig",
+                              "Echidna",
+                              "Egret",
+                              "Elephant",
+                              "Ermine",
+                              "Falcon",
+                              "Ferret",
+                              "Fennec",
+                              "Finch",
+                              "Firefly",
+                              "Fish",
+                              "Flamingo",
+                              "Flyingfish",
+                              "Fowl",
+                              "Frog",
+                              "Gazelle",
+                              "Gecko",
+                              "Gerbil",
+                              "Gibbon",
+                              "Giraffe",
+                              "Goat",
+                              "Goldfish",
+                              "Goose",
+                              "Gopher",
+                              "Gorilla",
+                              "Grasshopper",
+                              "Grebe",
+                              "Grouse",
+                              "Guanaco",
+                              "Guineafowl",
+                              "Gull",
+                              "Guppy",
+                              "Haddock",
+                              "Halibut",
+                              "Hamster",
+                              "Hare",
+                              "Harrier",
+                              "Hawk",
+                              "Hedgehog",
+                              "Heron",
+                              "Herring",
+                              "Hippopotamus",
+                              "Hookworm",
+                              "Hornet",
+                              "Horse",
+                              "Hoverfly",
+                              "Hummingbird",
+                              "Hyena",
+                              "Hyrax",
+                              "Iguana",
+                              "Ibis",
+                              "Jackal",
+                              "Jaguar",
+                              "Jellyfish",
+                              "Junglefowl",
+                              "Jacana",
+                              "Kangaroo",
+                              "Kingfisher",
+                              "Kite",
+                              "Kiwi",
+                              "Koala",
+                              "Krill",
+                              "Ladybug",
+                              "Lamprey",
+                              "Landfowl",
+                              "Lapwing",
+                              "Lark",
+                              "Leech",
+                              "Lemming",
+                              "Lemur",
+                              "Leopard",
+                              "Leopon",
+                              "Limpet",
+                              "Lion",
+                              "Lionfish",
+                              "Lizard",
+                              "Llama",
+                              "Lobster",
+                              "Locust",
+                              "Loon",
+                              "Loris",
+                              "Louse",
+                              "Lungfish",
+                              "Lynx",
+                              "Macaw",
+                              "Mackerel",
+                              "Magpie",
+                              "Mallard",
+                              "Manatee",
+                              "Mandrill",
+                              "Marlin",
+                              "Marmoset",
+                              "Marmot",
+                              "Marsupial",
+                              "Marten",
+                              "Mastodon",
+                              "Meadowlark",
+                              "Meerkat",
+                              "Mink",
+                              "Minnow",
+                              "Mite",
+                              "Mockingbird",
+                              "Mole",
+                              "Mollusk",
+                              "Mongoose",
+                              "Monkey",
+                              "Moose",
+                              "Mosquito",
+                              "Moth",
+                              "Mouse",
+                              "Mule",
+                              "Muskox",
+                              "Narwhal",
+                              "Needlefish",
+                              "Newt",
+                              "Nighthawk",
+                              "Nightingale",
+                              "Numbat",
+                              "Ocelot",
+                              "Octopus",
+                              "Okapi",
+                              "Olingo",
+                              "Opossum",
+                              "Orangutan",
+                              "Orca",
+                              "Oribi",
+                              "Ostrich",
+                              "Otter",
+                              "Panda",
+                              "Panther",
+                              "Parakeet",
+                              "Parrot",
+                              "Parrotfish",
+                              "Partridge",
+                              "Peacock",
+                              "Peafowl",
+                              "Pelican",
+                              "Penguin",
+                              "Perch",
+                              "Pheasant",
+                              "Pigeon",
+                              "Pike",
+                              "Pinniped",
+                              "Piranha",
+                              "Planarian",
+                              "Platypus",
+                              "Pony",
+                              "Porcupine",
+                              "Porpoise",
+                              "Possum",
+                              "Prawn",
+                              "Primate",
+                              "Ptarmigan",
+                              "Puffin",
+                              "Puma",
+                              "Python",
+                              "Quail",
+                              "Quelea",
+                              "Quetzal",
+                              "Quokka",
+                              "Rabbit",
+                              "Raccoon",
+                              "Rattlesnake",
+                              "Raven",
+                              "Reindeer",
+                              "Reptile",
+                              "Rhinoceros",
+                              "Roadrunner",
+                              "Rodent",
+                              "Rook",
+                              "Rooster",
+                              "Roundworm",
+                              "Sailfish",
+                              "Salamander",
+                              "Salmon",
+                              "Sawfish",
+                              "Scallop",
+                              "Scorpion",
+                              "Seahorse",
+                              "Serval",
+                              "Shark",
+                              "Sheep",
+                              "Shrew",
+                              "Shrimp",
+                              "Silkworm",
+                              "Silverfish",
+                              "Skink",
+                              "Skunk",
+                              "Sloth",
+                              "Slug",
+                              "Smelt",
+                              "Snail",
+                              "Snake",
+                              "Snipe",
+                              "Sole",
+                              "Sparrow",
+                              "Spider",
+                              "Spoonbill",
+                              "Squid",
+                              "Squirrel",
+                              "Starfish",
+                              "Stingray",
+                              "Stoat",
+                              "Stork",
+                              "Sturgeon",
+                              "Swallow",
+                              "Swan",
+                              "Swift",
+                              "Swordfish",
+                              "Swordtail",
+                              "Tahr",
+                              "Takin",
+                              "Tapir",
+                              "Tarantula",
+                              "Tarsier",
+                              "Termite",
+                              "Tern",
+                              "Thrush",
+                              "Tick",
+                              "Tiger",
+                              "Tiglon",
+                              "Titi",
+                              "Toad",
+                              "Tortoise",
+                              "Toucan",
+                              "Trout",
+                              "Tuna",
+                              "Turkey",
+                              "Turtle",
+                              "Urial",
+                              "Vaquita",
+                              "Vicuña",
+                              "Viper",
+                              "Vixen",
+                              "Voalavoanala",
+                              "Vole",
+                              "Vulture",
+                              "Wallaby",
+                              "Walrus",
+                              "Wasp",
+                              "Warbler",
+                              "Waterbuck",
+                              "Weasel",
+                              "Whale",
+                              "Whippet",
+                              "Whitefish",
+                              "Wildcat",
+                              "Wildebeest",
+                              "Wildfowl",
+                              "Wolf",
+                              "Wolverine",
+                              "Wombat",
+                              "Woodchuck",
+                              "Woodpecker",
+                              "Worm",
+                              "Wren",
+                              "Xerinae",
+                              "Zebra",
+                              "Zebu",
+                              "Zorilla"],
+                "Tech"    => ["Accelerometer",
+                              "ADSL",
+                              "Android",
+                              "Archive",
+                              "Backup",
+                              "Bandwidth",
+                              "Benchmark",
+                              "BIOS",
+                              "Bitmap",
+                              "Bitcoin",
+                              "BitTorrent",
+                              "Blacklist",
+                              "Bluetooth",
+                              "Binary",
+                              "Backlink",
+                              "Bloatware",
+                              "Burn",
+                              "Cache",
+                              "Compression",
+                              "Content",
+                              "CMOS",
+                              "Cookie",
+                              "Cybersecurity",
+                              "Deamon",
+                              "Debug",
+                              "Dock",
+                              "Driver",
+                              "Encryption",
+                              "Emulator",
+                              "Ethernet",
+                              "Framework",
+                              "Freeware",
+                              "Firewall",
+                              "HTML",
+                              "HTTPS",
+                              "IEEE",
+                              "IMEI",
+                              "Internet",
+                              "Intranet",
+                              "JAVA",
+                              "JavaScript",
+                              "JPEG",
+                              "Kernel",
+                              "Linux",
+                              "Macintosh",
+                              "Malware",
+                              "MIDI",
+                              "Newbie",
+                              "Overclock",
+                              "Perl",
+                              "Phishing",
+                              "Python",
+                              "QWERTY",
+                              "Registry",
+                              "RAID",
+                              "Rooting",
+                              "Ruby",
+                              "SSID",
+                              "Server",
+                              "Spam",
+                              "Swype",
+                              "Trash",
+                              "Underclock",
+                              "Unix",
+                              "Virus",
+                              "Windows",
+                              "WYSIWYG"],
+                "Music"   => ["abafando",
+                              "avec",
+                              "abbandonatamente",
+                              "aber",
+                              "accarezzevole",
+                              "accelerando",
+                              "accelerato",
+                              "accent",
+                              "accentato",
+                              "acciaccato",
+                              "acciaccatura",
+                              "accompagnato",
+                              "accuratezza",
+                              "acoustic",
+                              "adagietto",
+                              "adagio",
+                              "adagissimo",
+                              "affannato",
+                              "affetto",
+                              "affettuoso",
+                              "affrettando",
+                              "agitato",
+                              "alla",
+                              "allargando",
+                              "allegretto",
+                              "allegrezza",
+                              "allegrissimo",
+                              "allegro",
+                              "altissimo",
+                              "alto",
+                              "amabile",
+                              "ambitus",
+                              "anacrusis",
+                              "andamento",
+                              "andante",
+                              "andantino",
+                              "animandosi",
+                              "antiphon",
+                              "antiphonal",
+                              "appassionato",
+                              "appoggiatura",
+                              "arco",
+                              "aria",
+                              "arietta",
+                              "arioso",
+                              "armonioso",
+                              "arpeggio",
+                              "articulato",
+                              "assai",
+                              "attacca",
+                              "bass",
+                              "battuto",
+                              "beat",
+                              "bellicoso",
+                              "bend",
+                              "bravura",
+                              "bridge",
+                              "cabaletta",
+                              "cadence",
+                              "cadenza",
+                              "calando",
+                              "cambiare",
+                              "canto",
+                              "capo",
+                              "chiuso",
+                              "coda",
+                              "codetta",
+                              "colossale",
+                              "comodo",
+                              "conjunct",
+                              "contralto",
+                              "count",
+                              "crescendo",
+                              "custos",
+                              "decelerando",
+                              "diminuendo",
+                              "divisi",
+                              "doit",
+                              "dolce",
+                              "dolcissimo",
+                              "dolente",
+                              "dolore",
+                              "doloroso",
+                              "downtempo",
+                              "drammatico",
+                              "drone",
+                              "drop",
+                              "dynamics",
+                              "encore",
+                              "energico",
+                              "fall",
+                              "falsetto",
+                              "fantasia",
+                              "feroce",
+                              "festivamente",
+                              "fill",
+                              "fine",
+                              "flat",
+                              "forte",
+                              "fortissimo",
+                              "fortississimo",
+                              "glissando",
+                              "homophony",
+                              "incalzando",
+                              "intro",
+                              "keyboardist",
+                              "legato",
+                              "mancando",
+                              "marcatissimo",
+                              "measure",
+                              "medley",
+                              "metre",
+                              "modulation",
+                              "movement",
+                              "natural",
+                              "nocturne",
+                              "notes",
+                              "octave",
+                              "overture",
+                              "pianissimo",
+                              "piano",
+                              "pizzicato",
+                              "poco",
+                              "prestissimo",
+                              "presto",
+                              "quartal",
+                              "rapido",
+                              "sharp",
+                              "soprano",
+                              "tempo",
+                              "tenor",
+                              "timbre",
+                              "time",
+                              "tremolo",
+                              "trill",
+                              "triplet"]
+               }
+  end
+
+def get_word
+  word_list
+  category = nil
+  until (category)
+    category = ask_for_category.to_i
+  end
+  if category == @word_list.keys.length+1
+    category = Random.rand(1..@word_list.keys.length-1)
+  end
+  @category = @word_list.keys[category-1]
+  @word_list[@category].sample.upcase
+end
+
+def ask_for_category
+  puts "Categories are:"
+  for i in 1..@word_list.keys.length
+    puts "  #{i} #{@word_list.keys[i-1]}"
+  end
+  puts "  #{@word_list.keys.length+1} All"
+  print "What category would you like to use? "
+  category = gets.chomp
+  if category =~ /^[1-4]$/
+    category
+  else
+    nil
+  end
+end
+
+def ask_for_letter
+  print "What letter would you like to guess? "
+  letter = gets.chomp.upcase
+  if letter =~ /^[A-Z]$/
+    if @guesses.include?(letter)
+      nil
+    else
+      letter
+    end
+  else
+    nil
+  end
+end
+
+def get_letter
+  letter = nil
+  until letter
+    letter = ask_for_letter
+  end
+  @wrongs += 1 unless @word.chars.include?(letter)
+  @guesses.push(letter)
+end
+
+def check_if_won
+  raise 'GameWon' if (@word.chars - @guesses).empty?
+end
+
+# Add ability to select category
+begin
+  puts
+  puts " -------------------------------------------"
+  puts "|                                           |"
+  puts "| Welcome to Command Line Hangman by Reyloc |"
+  puts "|                                           |"
+  puts " -------------------------------------------"
+  @category = ''
+  @word     = get_word
+  @guesses  = []
+  @wrongs   = 0
+  while (@wrongs < 6)
+    draw_picture
+    get_letter
+    check_if_won
+  end
+  raise 'GameLost'
+rescue Interrupt
+  puts "\n\nThe word was #@word.\n\n"
+rescue => e
+  case e.message
+    when "GameLost"
+      draw_picture
+      puts "Sorry, you have lost. The word was #@word.\n\n"
+    when "GameWon"
+      draw_picture
+      puts "You won!\n\n"
+    else
+      puts "\nUnknown Error has occurred:"
+      puts "\t#{e.class.name}"
+      puts "\t#{e.message}\n"
+  end
+end
